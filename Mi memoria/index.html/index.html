@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memoria PFC - JustFit</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Memoria PFC - JustFit (Gimnasio)</h1>
+    <nav>
+      <ul>
+        <li><a href="#red">Red</a></li>
+        <li><a href="#servidor">Servidor</a></li>
+        <li><a href="#ssh">SSH</a></li>
+        <li><a href="#apache">Apache</a></li>
+        <li><a href="#html">HTML</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="red">
+      <h2>Red</h2>
+      <p>Red 192.168.1.0 con los siguientes dispositivos:</p>
+      <ul>
+        <li>Router: 192.168.1.1</li>
+        <li>Servidor: 192.168.1.43</li>
+        <li>Javier (Base de Datos): 192.168.1.50</li>
+        <li>Andres (SSH): 192.168.1.51</li>
+        <li>Charles (Web): 192.168.1.52</li>
+      </ul>
+      <img src="img/red.png" alt="Topología de red"/>
+      <img src="img/diseño.png" alt="Diseño de red"/>
+      <ul>
+        <li>Aquí podremos ver la idea de la red que tenemos en esta simulación, es una
+red pequeña ya que la practica va mas enfocada a la configuración del servidor
+y al ataque desde otro equipo.</li>
+      </ul>
+    </section>
+
+    <section id="servidor">
+      <h2>Servidor JustFit</h2>
+      <p>Configuración inicial de Ubuntu Server, con los siguientes usuarios:</p>
+      <ul>
+        <li>Administrador</li>
+        <li>Javier – Admin Base de Datos (contraseña débil)</li>
+        <li>Andres – Acceso SSH (contraseña fuerte)</li>
+        <li>Charles – Diseñador Web</li>
+      </ul>
+      <img src="img/ubuntu.png" alt="Configuración del servidor Ubuntu"/>
+      <ul>
+        <li>Para facilitar los siguientes pasos nos vamos a logear como root con el
+comando sudo su:
+sudo: Significa "superuser do". Permite ejecutar comandos como otro usuario
+(por defecto, como root), pero con la autenticación de tu propio usuario (si
+estás autorizado en /etc/sudoers).</li>
+      </ul>
+       <img src="img/cubuntu.png" alt="Configuración del servidor Ubuntu"/>
+       <ul>
+        <li>Una vez como root, vamos a ejecutar el comando add user (usuario), lo que
+hace este comando es:
+Crea una nueva cuenta de usuario.
+Crea un directorio personal (por ejemplo, /home/javier).
+Asigna un shell predeterminado (como /bin/bash).
+Agrega el usuario a grupos necesarios, como el grupo del mismo
+nombre.
+Pide que configures una contraseña para el nuevo usuario.
+También pregunta por información opcional como nombre completo,
+número de teléfono, etc para su configuracion mas avanzada.
+Esto lo haremos con los usuarios que hemos indicado antes:
+Usuario: javier
+Contraseña: realmadrid
+Notas : administrador de la base de datos, con contraseña debil para
+demostrar ataques con fuerza bruta.</li>
+       </ul>
+    </section>
+
+    <section id="ssh">
+      <h2>Configuración SSH</h2>
+      <p>SSH habilitado únicamente para el usuario <code>andres</code>.</p>
+      <ul>
+        <li>Primero vamos a explicar para que sirve el protocolo SSH (Secure Shell)
+• Conectarte a otra máquina de forma segura (por consola).
+• Administrar servidores de forma remota.
+• Transferir archivos con seguridad (con scp, sftp).
+• Hacer túneles cifrados y redirigir puertos.
+Es una herramienta fundamental en administración de sistemas, redes y
+servidores.
+En este caso vamos a configurar para que solamente tenga acceso un usuario
+que sera andres
+Para hacer esto tendremos que meternos en la ruta /etc/ssh/sshd_config</li>
+      </ul>
+      <p>Archivo modificado: <code>/etc/ssh/sshd_config</code></p>
+      <img src="img/ssh.png" alt="Configuración del SSH"/>
+      <p>Línea clave: <code>AllowUsers andres</code></p>
+      <p>Reiniciar SSH: <code>systemctl restart ssh</code></p>
+       <img src="img/cssh.png" alt="Configuración del SSH"/>
+       <ul>
+        <li>Es importante que se guarden los cambios y todo cambio que se haga en la
+configuracion de cualquier servicio se reinicie y se compruebe el estado.
+systemctl restart ssh = Reinicia el servicio.
+systemctl status ssh = Muestra el estado del servicio si funciona correctamente.</li>
+
+       </ul>
+    </section>
+
+    <section id="apache">
+      <h2>Servidor Web Apache</h2>
+      <ul>
+        <li>Apache es un servidor web.
+Su función principal es mostrar páginas web a los usuarios cuando las solicitan
+desde su navegador.
+• Es un software que se instala en un servidor.
+• Recibe peticiones HTTP (por ejemplo, cuando visitas una web).
+• Responde enviando archivos HTML, imágenes, etc. al navegador.
+Cuando escribes la página en un navegador, el navegador contacta al servidor.
+Apache recibe esa petición y entrega la página correspondiente.
+Lo primero que haremos será instalar el servidor con el comando apt install
+apache2</li>
+      </ul>
+      <p>Instalación: <code>apt install apache2</code></p>
+      <img src="img/apache.png" alt="Configuración Apache"/>
+      <p>Activación: <code>systemctl enable apache2</code></p>
+       <img src="img/apache2.png" alt="Configuración Apache"/>
+      <p>Directorio raíz: <code>/var/www/html</code></p>
+       <img src="img/apache3.png" alt="Configuración Apache"/>
+    </section>
+
+    <section id="html">
+      <h2>Página Web HTML</h2>
+      <p>Simulación de portal de soporte. Se menciona a <strong>javier</strong> como administrador de base de datos.</p>
+      <img src="img/html.png" alt="Configuración HTML"/>
+      <ul>
+        <li>Como podemos ver es una pagina simple donde simulara un portal de soporte,
+lo importante de este index es que tenemos que colocar una pista a un usuario,
+en este caso podemos ver que cuentan con una base de datos y el
+administrador es javier</li>
+      </ul>
+       <img src="img/html2.png" alt="Configuración HTML"/>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Javier López López - Proyecto Fin de Curso (ASIR).
+  </footer>
+</body>
+</html>
+
